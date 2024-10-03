@@ -2,6 +2,8 @@
 """
 0-pascal_triangle.py
 """
+
+
 def pascal_triangle(n):
     """Pascal trinagel algorithms"""
     if n <= 0:
