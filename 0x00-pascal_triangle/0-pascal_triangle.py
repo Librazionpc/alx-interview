@@ -5,7 +5,7 @@
 
 
 def pascal_triangle(n):
-    """Pascal trinagel algorithms"""
+    """Pascal triangle algorithms"""
     if n <= 0:
         return []
 
