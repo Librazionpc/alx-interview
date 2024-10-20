@@ -1,4 +1,10 @@
+#!/usr/bin/python3
+"""
+0-minoperations.py
+"""
+
 def minOperations(n):
+    """Minimum operations algorithm"""
     if n <= 1:
         return 0
 
