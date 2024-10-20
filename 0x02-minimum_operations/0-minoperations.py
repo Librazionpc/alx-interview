@@ -15,4 +15,5 @@ def minOperations(n):
         while n % i == 0:
             operations += i
             n //= i
-            return operations
+            
+    return operations
