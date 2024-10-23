@@ -16,7 +16,8 @@ def main():
     # Define a regex pattern to match the log format
     log_pattern = re.compile(
         r'(?P<ip>\d{1,3}(?:\.\d{1,3}){3}) - \[(?P<date>[^\]]+)\] '
-        r'"GET /projects/260 HTTP/1.1" (?P<status_code>\d{3}) (?P<file_size>\d+)'
+        r'"GET /projects/260 HTTP/1.1" (?P<status_code>\d{3}) '
+        r'(?P<file_size>\d+)'
     )
 
     try:
@@ -36,15 +37,17 @@ def main():
                 # Print statistics every 10 lines
                 if line_count % 10 == 0:
                     print_stats(total_file_size, status_counts)
-        
+
     except KeyboardInterrupt:
         print_stats(total_file_size, status_counts)
+
 
 def print_stats(total_file_size, status_counts):
     print(f"File size: {total_file_size}")
     for code in sorted(status_counts.keys()):
         print(f"{code}: {status_counts[code]}")
     print()  # New line for separation
+
 
 if __name__ == "__main__":
     main()
