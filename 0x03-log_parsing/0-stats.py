@@ -1,49 +1,46 @@
 #!/usr/bin/python3
-"""
-0-stats.py - Log Parsing
-"""
+
+""" Log parsing """
+
+import sys
 
 
-def print_stats(size, status_codes):
-    """Prints the log stats."""
-    print("File size: {}".format(size))
-    for key in sorted(status_codes):
-        print("{}: {}".format(key, status_codes[key]))
+def printStatus(dic, size):
+    """ print status """
+    print("File size: {:d}".format(size))
+    for i in sorted(dic.keys()):
+        if dic[i] != 0:
+            print("{}: {:d}".format(i, dic[i]))
 
-if __name__ == "__main__":
-    import sys
 
-    size = 0
-    status_codes = {}
-    valid_codes = ['200', '301', '400', '401', '403', '404', '405', '500']
-    count = 0
+# sourcery skip: use-contextlib-suppress
+statusCodes = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+               "404": 0, "405": 0, "500": 0}
 
-    try:
-        for line in sys.stdin:
-            if count == 10:
-                print_stats(size, status_codes)
-                count = 1
-            else:
-                count += 1
+count = 0
+size = 0
 
-            line = line.split()
+try:
+    for line in sys.stdin:
+        if count != 0 and count % 10 == 0:
+            printStatus(statusCodes, size)
 
-            try:
-                size += int(line[-1])
-            except (IndexError, ValueError):
-                pass
+        stlist = line.split()
+        count += 1
 
-            try:
-                if line[-2] in valid_codes:
-                    if status_codes.get(line[-2], -1) == -1:
-                        status_codes[line[-2]] = 1
-                    else:
-                        status_codes[line[-2]] += 1
-            except IndexError:
-                pass
+        try:
+            size += int(stlist[-1])
+        except Exception:
+            pass
 
-        print_stats(size, status_codes)
+        try:
+            if stlist[-2] in statusCodes:
+                statusCodes[stlist[-2]] += 1
+        except Exception:
+            pass
+    printStatus(statusCodes, size)
 
-    except KeyboardInterrupt:
-        print_stats(size, status_codes)
-        raise
+
+except KeyboardInterrupt:
+    printStatus(statusCodes, size)
+    raise
