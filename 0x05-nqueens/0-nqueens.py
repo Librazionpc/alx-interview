@@ -12,6 +12,7 @@ def is_valid(board, row, col):
             return False
     return True
 
+
 def solve_nqueens(n, row, board, solutions):
     """Use backtracking to find all solutions for n-queens."""
     if row == n:
@@ -24,6 +25,7 @@ def solve_nqueens(n, row, board, solutions):
             board[row] = col
             solve_nqueens(n, row + 1, board, solutions)
             board[row] = -1
+
 
 def main():
     """Parse command line arguments """
