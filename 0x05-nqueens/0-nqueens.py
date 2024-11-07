@@ -1,6 +1,6 @@
 #!/usr/bin/python3
+"""N Queens"""
 import sys
-"""N-queens problem."""
 
 
 def is_valid(board, row, col):
