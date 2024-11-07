@@ -1,54 +1,59 @@
 #!/usr/bin/python3
-"""N Queens"""
+""" N queens problem """
 import sys
 
 
-def is_valid(board, row, col):
-    """Check if a queen can be placed at board[row][col]."""
-    for i in range(row):
-        if board[i] == col or \
-           board[i] - i == col - row or \
-           board[i] + i == col + row:
-            return False
-    return True
+def print_board(board, n):
+    """ Print the board """
+    b = []
+
+    for i in range(n):
+        for j in range(n):
+            if j == board[i]:
+                b.append([i, j])
+    print(b)
 
 
-def solve_nqueens(n, row, board, solutions):
-    """Use backtracking to find all solutions for n-queens."""
+def is_position_safe(board, i, j, r):
+    """ Check if the position is safe """
+    return board[i] in (j, j - i + r, i - r + j)
+
+
+def safe_positions(board, row, n):
+    """ Check the safe positions """
     if row == n:
-        solution = [[i, board[i]] for i in range(n)]
-        solutions.append(solution)
-        return
+        print_board(board, n)
 
-    for col in range(n):
-        if is_valid(board, row, col):
-            board[row] = col
-            solve_nqueens(n, row + 1, board, solutions)
-            board[row] = -1
+    else:
+        for j in range(n):
+            allowed = True
+            for i in range(row):
+                if is_position_safe(board, i, j, row):
+                    allowed = False
+            if allowed:
+                board[row] = j
+                safe_positions(board, row + 1, n)
 
 
-def main():
-    """Parse command line arguments """
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
+def create_board(size):
+    """ Create the board """
+    return [0 * size for i in range(size)]
 
-    try:
-        n = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
 
-    if n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
+if len(sys.argv) != 2:
+    print("Usage: nqueens N")
+    exit(1)
 
-    solutions = []
-    board = [-1] * n
-    solve_nqueens(n, 0, board, solutions)
+try:
+    n = int(sys.argv[1])
+except BaseException:
+    print("N must be a number")
+    exit(1)
 
-    for solution in solutions:
-        print(solution)
+if (n < 4):
+    print("N must be at least 4")
+    exit(1)
 
-if __name__ == "__main__":
-    main()
+board = create_board(int(n))
+row = 0
+safe_positions(board, row, int(n))
