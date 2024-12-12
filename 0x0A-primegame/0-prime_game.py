@@ -22,12 +22,12 @@ def isWinner(x, nums):
         remove_multiples(a, i)
 
     for i in nums:
-  
+
         if sum(a[0:i + 1]) % 2 == 0:
             ben += 1
         else:
             maria += 1
-    
+
     if ben > maria:
         return "Ben"
     if maria > ben:
@@ -40,7 +40,6 @@ def remove_multiples(ls, x):
     Removes multiples of a prime number from an array of possible prime
     numbers."""
 
-   
     for i in range(2, len(ls)):
         try:
             ls[i * x] = 0
